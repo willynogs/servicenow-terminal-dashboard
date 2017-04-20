@@ -1,0 +1,23 @@
+{
+  "name": "nog-dash",
+  "version": "1.0.0",
+  "description": "a dashboard",
+  "main": "nog.js",
+  "bin": {
+    "nog-dash": "nog.js"
+  },
+  "scripts": {
+    "start": "node nog.js"
+  },
+  "keywords": [
+    "nog",
+    "dashboard"
+  ],
+  "author": "willynogs",
+  "license": "ISC",
+  "dependencies": {
+    "blessed": "^0.1.81",
+    "blessed-contrib": "^4.7.5",
+    "weather-js": "^2.0.0"
+  }
+}
