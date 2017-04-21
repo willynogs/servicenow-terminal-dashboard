@@ -1,11 +1,12 @@
 var request = require('request');
+var config = require('./config');
 
 var snCalls = {
-  getMyWork: function(box, screen){
+  getMyWork: function(box, screen, cb){
     var options = {
-      url: 'https://osuitsm.service-now.com/api/now/table/task?sysparm_query=active%3Dtrue%5Eassigned_to.user_name%3Dnaugle.13&sysparm_display_value=true',
+      url: 'https://osuitsm.service-now.com/api/now/table/task?sysparm_query=active%3Dtrue%5Eassigned_to.user_name%3D' + config.sn_user + '&sysparm_display_value=true',
       headers: {
-        authorization: 'Basic '+ new Buffer('naugle.13'+':'+'bettelweib').toString('base64')
+        authorization: 'Basic '+ new Buffer(config.sn_username +':'+ config.sn_password).toString('base64')
       }
     };
     /* get my work */
@@ -27,6 +28,7 @@ var snCalls = {
       });
       box.focus();
       screen.render();
+      cb(recs);
     });
   },
   /* further calls will go here */

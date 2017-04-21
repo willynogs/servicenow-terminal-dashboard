@@ -3,6 +3,8 @@ var blessed = require('blessed');
 var contrib = require('blessed-contrib');
 var request = require('request');
 var weather = require('weather-js');
+var open = require('open');
+var config = require('./config');
 var sn = require('./sn-calls');
 
 /* create screen object */
@@ -35,7 +37,7 @@ var weatherBox = grid.set(1, 8, 1, 4, blessed.box, {
 
 /* quote box */
 var quoteBox = grid.set(2, 8, 2, 4, blessed.box, {
-  label: 'quote',
+  label: '💭  quote 💭',
   content: '[quote]'
 });
 
@@ -49,6 +51,12 @@ var workBox = grid.set(0, 0, 4, 8, contrib.table, {
   label: '💪  my work 💪',
   columnSpacing: 10 /*in chars*/,
   columnWidth: [16, 30, 60] /*in chars*/
+});
+
+/* handle select on rows */
+var work_rows = [];
+workBox.rows.on('select', function(item, index){
+  open('https://osuitsm.service-now.com/task.do?sys_id=' + work_rows[index].sys_id);
 });
 
 /* call loop, then every 10 seconds call loop */
@@ -66,9 +74,11 @@ function loop(){
   /* set info */
   setInfo();
   /* get the weather */
-  getWeather('Columbus, Ohio');
+  getWeather(config.city);
   /* get my work from servicenow */
-  sn.getMyWork(workBox, screen);
+  sn.getMyWork(workBox, screen, function(recs){
+    work_rows = recs;
+  });
 }
 
 function setInfo(){
@@ -96,7 +106,7 @@ function getWeather(location){
 /* get our quote */
 function quote(){
   var options = {
-    url: 'https://andruxnet-random-famous-quotes.p.mashape.com/?cat=famous',
+    url: 'https://andruxnet-random-famous-quotes.p.mashape.com/?cat=' + config.quotes_cat,
     headers: {
       'X-Mashape-Key': 'eN5shPYkKomshlsWJx6JrZ2LFf9Np13GdOhjsnIPetFn8juXSR',
       'Content-Type': 'application/x-www-form-urlencoded',
