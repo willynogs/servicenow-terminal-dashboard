@@ -1,4 +1,4 @@
-## nog dash
+## Servicenow Terminal Dashboard
 
 This is a Servicenow dashboard that runs in terminal.
 
