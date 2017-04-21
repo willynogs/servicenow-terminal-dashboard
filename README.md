@@ -15,7 +15,7 @@ This is a Servicenow dashboard that runs in terminal.
 
 ## Contributors
 
-Will Naugle (@willynogs)
+Will Naugle ([@willynogs](https://github.com/willynogs))
 
 ## License
 
