@@ -1,10 +1,12 @@
+/* require */
 var request = require('request');
 var config = require('./config');
 
+/* all exports will go in this object */
 var snCalls = {
   getMyWork: function(box, screen, cb){
     var options = {
-      url: 'https://osuitsm.service-now.com/api/now/table/task?sysparm_query=active%3Dtrue%5Eassigned_to.user_name%3D' + config.sn_user + '&sysparm_display_value=true',
+      url: 'https://' + config.sn_instance + '.service-now.com/api/now/table/task?sysparm_query=active%3Dtrue%5Eassigned_to.user_name%3D' + config.sn_user + '&sysparm_display_value=true',
       headers: {
         authorization: 'Basic '+ new Buffer(config.sn_username +':'+ config.sn_password).toString('base64')
       }
@@ -34,4 +36,5 @@ var snCalls = {
   /* further calls will go here */
 };
 
+/* add object to exports */
 module.exports = snCalls;
