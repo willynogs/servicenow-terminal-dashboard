@@ -12,7 +12,7 @@ var screen = blessed.screen({
   fullUnicode: true,
   autoPadding: true,
   smartCSR: true,
-  title: 'nog dash'
+  title: 'sn dash'
 });
 
 /* quit on escape, q, or control-c */
