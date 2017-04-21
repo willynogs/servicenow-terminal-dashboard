@@ -28,9 +28,15 @@ var infoBox = grid.set(0, 8, 1, 4, blessed.box, {
 });
 
 /* weather box */
-var weatherBox = grid.set(1, 8, 2, 4, blessed.box, {
+var weatherBox = grid.set(1, 8, 1, 4, blessed.box, {
   label: '☁️  weather ☁️',
   content: '[weather]'
+});
+
+/* quote box */
+var quoteBox = grid.set(2, 8, 2, 4, blessed.box, {
+  label: 'quote',
+  content: '[quote]'
 });
 
 /* my work box */
@@ -49,6 +55,12 @@ var workBox = grid.set(0, 0, 4, 8, contrib.table, {
 loop();
 setInterval(loop, 10000);
 
+/* call quote, then call quote every 30 seconds */
+quote();
+setInterval(quote, 30000);
+
+/* functions */
+
 /* repeating function */
 function loop(){
   /* set info */
@@ -59,10 +71,9 @@ function loop(){
   sn.getMyWork(workBox, screen);
 }
 
-/* functions */
 function setInfo(){
   var d = new Date();
-  var updated = d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+  var updated = ('0' + (d.getMonth() + 1)).slice(-2) + '/' + ('0' + d.getDate()).slice(-2) + '/' + d.getFullYear() + ' @ ' + ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2) + ':' + ('0' + d.getSeconds()).slice(-2);
   infoBox.content = 'last updated ' + updated + ' - v1.0';
   screen.render();
 }
@@ -78,6 +89,23 @@ function getWeather(location){
 
     /* update the weather box */
     weatherBox.content = weatherString;
+    screen.render();
+  });
+}
+
+/* get our quote */
+function quote(){
+  var options = {
+    url: 'https://andruxnet-random-famous-quotes.p.mashape.com/?cat=famous',
+    headers: {
+      'X-Mashape-Key': 'eN5shPYkKomshlsWJx6JrZ2LFf9Np13GdOhjsnIPetFn8juXSR',
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Accept': 'application/json'
+    }
+  };
+  request(options, function(e, r, b){
+    var json = JSON.parse(b);
+    quoteBox.content = json.quote + '\n- ' + json.author;
     screen.render();
   });
 }
