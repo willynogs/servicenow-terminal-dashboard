@@ -4,13 +4,13 @@
   "description": "a servicenow dashboard",
   "main": "app.js",
   "bin": {
-    "nog-dash": "app.js"
+    "sn-dash": "app.js"
   },
   "scripts": {
     "start": "node app.js"
   },
   "keywords": [
-    "nog",
+    "servicenow",
     "dashboard"
   ],
   "author": "willynogs",
