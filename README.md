@@ -12,6 +12,7 @@ This is a Servicenow dashboard that runs in terminal.
 ## Usage
 
 * highlighting a row in my work and pressing enter will open that record in your default browser
+* if you are having issues with the servicenow REST api make sure you have CORS properly configured in your instance, as well as the correct permissions on the user profile you are using for the REST call. Refer to: [http://wiki.servicenow.com/index.php?title=REST_API](http://wiki.servicenow.com/index.php?title=REST_API)
 
 ## Contributors
 
