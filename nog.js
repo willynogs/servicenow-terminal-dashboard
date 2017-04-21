@@ -3,6 +3,7 @@ var blessed = require('blessed');
 var contrib = require('blessed-contrib');
 var request = require('request');
 var weather = require('weather-js');
+var sn = require('./sn-calls');
 
 /* create screen object */
 var screen = blessed.screen({
@@ -20,44 +21,63 @@ screen.key(['escape', 'q', 'C-c'], function(ch, key) {
 /* 12 x 12 grid system */
 var grid = new contrib.grid({rows: 12, cols: 12, screen: screen});
 
+/* info box */
+var infoBox = grid.set(0, 8, 1, 4, blessed.box, {
+  label: 'info',
+  content: 'last updated ... - v1.0'
+});
+
 /* weather box */
-var weatherBox = grid.set(0, 6, 2, 6, blessed.box, {
+var weatherBox = grid.set(1, 8, 2, 4, blessed.box, {
   label: '☁️  weather ☁️',
   content: '[weather]'
 });
 
-/* servicenow box */
-var servicenowBox = grid.set(6, 0, 6, 12, blessed.box, {
-  label: 'servicenow',
-  content: 'content'
+/* my work box */
+var workBox = grid.set(0, 0, 4, 8, contrib.table, {
+  keys: true,
+  fg: 'white',
+  selectedFg: 'white',
+  selectedBg: 'blue',
+  interactive: true,
+  label: '💪  my work 💪',
+  columnSpacing: 10 /*in chars*/,
+  columnWidth: [16, 30, 60] /*in chars*/
 });
 
-/* every 10 seconds call loop */
-setTimeout(loop, 10000);
+/* call loop, then every 10 seconds call loop */
+loop();
+setInterval(loop, 10000);
 
 /* repeating function */
 function loop(){
+  /* set info */
+  setInfo();
   /* get the weather */
   getWeather('Columbus, Ohio');
-  /* get info from servicenow */
-  getSNData();
+  /* get my work from servicenow */
+  sn.getMyWork(workBox, screen);
 }
 
 /* functions */
+function setInfo(){
+  var d = new Date();
+  var updated = d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+  infoBox.content = 'last updated ' + updated + ' - v1.0';
+  screen.render();
+}
+
 function getWeather(location){
   weather.find({ search: location, degreeType: 'F' }, function(err, res){
     if(err) { console.log(e); }
     var c = res[0];
     var city = c.location.name;
     var temp = c.current.temperature;
-    var weatherString = temp + '° F in ' + city;
+    var skytext = c.current.skytext;
+    var weatherString = 'it is currently ' + temp + '° F and ' + skytext + ' in ' + city;
 
     /* update the weather box */
     weatherBox.content = weatherString;
     screen.render();
   });
-}
-
-function getSNData(){
-
 }
