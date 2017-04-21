@@ -26,7 +26,7 @@ var grid = new contrib.grid({rows: 12, cols: 12, screen: screen});
 /* info box */
 var infoBox = grid.set(0, 8, 1, 4, blessed.box, {
   label: 'info',
-  content: 'last updated ... - v1.0'
+  content: 'last updated ... - v' + config.version
 });
 
 /* weather box */
@@ -102,6 +102,6 @@ function getQuote(){
 function setInfo(){
   var d = new Date();
   var updated = ('0' + (d.getMonth() + 1)).slice(-2) + '/' + ('0' + d.getDate()).slice(-2) + '/' + d.getFullYear() + ' @ ' + ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2) + ':' + ('0' + d.getSeconds()).slice(-2);
-  infoBox.content = 'last updated ' + updated + ' - v1.0';
+  infoBox.content = 'last updated ' + updated + ' - v' + config.version;
   screen.render();
 }

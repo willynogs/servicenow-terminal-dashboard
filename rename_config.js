@@ -2,6 +2,7 @@
   this file contains all credentials and variables ** RENAME THIS FILE config.js AND FILL IN YOUR CREDENTIALS **
 */
 module.exports = {
+  version: '0.1', /* version of development */
   city: 'Columbus, Ohio', /* city used for weather api */
   quotes_cat: 'famous', /* can be either famous or movies */
   sn_instance: '', /* name of servicenow instance to use */
